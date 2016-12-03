@@ -8,6 +8,6 @@ setup(
   author_email = "cmancone@gmail.com",
   url = 'https://github.com/cmancone/ezgal',
   download_url = 'https://github.com/cmancone/ezgal/tarball/2.0',
-  keywords = ['SSPs', 'astronomy', 'utilities'],}
+  keywords = ['SSPs', 'astronomy', 'utilities'],
   classifiers = [],
 )

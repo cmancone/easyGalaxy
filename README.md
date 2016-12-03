@@ -4,7 +4,9 @@ EzGal calculates observables (apparent magnitude, absolute magnitude, k-correcti
 
 ## Install
 
-*Coming Soon*
+```
+pip install ezgal
+```
 
 ## Example Usage
 
