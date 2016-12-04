@@ -42,7 +42,13 @@ class test_to_years(unittest.TestCase):
 	
 	def test_invalid_name( self ):
 		with self.assertRaises( NameError ):
-			utils.to_years( 1e9, 'non-existent units' ) 
+			utils.to_years( 1e9, 'non-existent units' )
+	
+	# convert time just calls to_years twice, so we just need one
+	# simple test: no need to test all the different unit
+	# combinations
+	def test_convert_time( self ):
+		self.assertEqual( utils.convert_time( 1, incoming='myrs', outgoing='yrs' ), 1e6 )
 
 if __name__ == '__main__':
 	unittest.main()

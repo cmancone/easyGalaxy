@@ -42,6 +42,20 @@ class test_to_meters(unittest.TestCase):
 		# assertAlmostEqual does not work for large numbers,
 		# so we have to divide by 1e22 to make it work out
 		self.assertAlmostEqual( utils.to_meters( 1, units='mpc' )/1e22, 1.49598e17*3600*180/np.pi/1e22, 7 )
-
+	
+	# to hertz, to_lambda, and convert_length are all small variations of
+	# to_meters, which is why I have gone ahead and included them here.
+	# We don't need to test all of the units though, since it all just
+	# boils down to some simple arithmetic on results from to_meters,
+	# which is fully tested above
+	def test_to_hertz( self ):
+		self.assertAlmostEqual( utils.to_hertz( 1000, units='a' )/1e15, 2.99792458, 8 )
+	
+	def test_to_lambda( self ):
+		self.assertAlmostEqual( utils.to_lambda( 2.99792458e15, units='a' ), 1000, 8 )
+	
+	def test_convert_length( self ):
+		self.assertEqual( utils.convert_length( 10, incoming='km', outgoing='m' ), 10000 )
+	
 if __name__ == '__main__':
 	unittest.main()
