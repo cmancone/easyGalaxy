@@ -41,9 +41,19 @@ show()
 
 Full API documentation can be viewed online in [html](http://www.baryons.org/ezgal/manual/) and [pdf](http://www.baryons.org/ezgal/manual.pdf) formats.
 
+## Testing
+
+```
+python test.py
+```
+
 ## Contributors
 
 [Conor Mancone](https://github.com/cmancone/) and Anthony Gonzalez
+
+## Acknowledgements
+
+We gratefully acknowledge the authors of the primary model sets included in this project for giving us permission to redistribute their work in this way. We especially thank Charlie Conroy, Maurizio Salaris, Santi Cassisi, St´efane Charlot, Gustavo Bruzual, and Claudia Maraston for their input on this project. We are also grateful to our many collaborators - Adam Stanford, Peter Eisenhardt, Yen-Ting Lin, Greg Snyder, and others who have tested EzGal extensively and provided us with invaluable feedback.
 
 ## License
 
