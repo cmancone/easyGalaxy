@@ -1,5 +1,6 @@
 import array,os,re
 import numpy as np
+import math
 
 # some useful constants
 c = 299792458			# speed of light (m/sec)
@@ -232,7 +233,13 @@ def rascii( filename, silent=False ):
 	
 	.. seealso:: :func:`ezgal.utils.wascii`
 	"""
-	file = open( filename, 'r' )
+	
+	# accept an open filepointer or a filename
+	if type( filename ) == type( '' ):
+		file = open( filename, 'r' )
+	else:
+		file = filename
+	
 	found = False
 	nlines = 0
 	ngood = 0
@@ -310,12 +317,22 @@ def wascii( array, filename, formats, blank=False, header=None, names=None ):
 		for i in range(nrows):
 			strings[i] = ' '.join([format % val for format,val in zip(formats, table[i,:])])
 		file = "\n".join( strings )
-
-	fh = open( filename, 'wb' )
+	
+	# filename can be a filename or file pointer
+	# in the case of a file pointer don't close it
+	if type( filename ) == type( '' ):
+		fh = open( filename, 'wb' )
+		do_close = True
+	else:
+		fh = filename
+		do_close = False
+	
 	if header is not None: fh.write( header + "\n" )
 	fh.write( file )
 	if blank: fh.write( "\n" )
-	fh.close()
+	
+	if do_close:
+		fh.close()
 
 def _read_binary( fhandle, type='i', number=1, swap=False ):
 	""" res = ezgal.utils._read_binary( fhandle, type='i', number=1, swap=False )
