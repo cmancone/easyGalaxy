@@ -37,6 +37,10 @@ legend()
 show()
 ```
 
+Which makes:
+
+![alt tag](http://www.baryons.org/ezgal/z_ml.png)
+
 ## API
 
 Full API documentation can be viewed online in [html](http://www.baryons.org/ezgal/manual/) and [pdf](http://www.baryons.org/ezgal/manual.pdf) formats.
