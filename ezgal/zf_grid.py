@@ -171,6 +171,8 @@ class zf_grid(object):
 		Return NaN if out of bounds """
 
 		# return nan for anything outside the interpolation range
+		if not self.has_dms: raise ValueError( 'DMs have not been set!' )
+		
 		zs = np.asarray( zs )
 		m = ( zs >= self.zs.min() ) & ( zs <= self.zs.max() )
 
