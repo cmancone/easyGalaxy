@@ -21,5 +21,10 @@ class test_solar_vega(unittest.TestCase):
 		self.astro_filter.set_solar_magnitude( tests.solar )
 		self.assertAlmostEqual( self.astro_filter.solar, 4.8245616, 7 )
 	
+	def test_ab_flux( self ):
+		
+		self.assertAlmostEqual( self.astro_filter.ab_flux*1e21, 5.6971937, 7  )
+	
+	
 if __name__ == '__main__':
 	unittest.main()
