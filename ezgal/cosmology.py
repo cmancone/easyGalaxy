@@ -65,7 +65,7 @@ class Cosmology:
 
     # Got this from Jake
     def Hz(self, z):
-        return self.H0 / self.Efunc(z)
+        return self.H0() / self.Efunc(z)
 
     # Scale factor
     def a(self, z):
@@ -119,7 +119,7 @@ class Cosmology:
 
     # Angular diameter distance between objects at 2 redshifts
     # Useful for gravitational lensing
-    def Da2(self, z1, z2):
+    def Da2(self, z1, z2, cm=False, meter=False, pc=False, kpc=False, mpc=False):
         # does not work for negative curvature
         assert(self.Ok()) >= 0
 
@@ -135,7 +135,7 @@ class Cosmology:
         Ok  = self.Ok()
         Dh  = self.Dh()
 
-        return 1. / (1 + z2) * ( Dm2 * num.sqrt(1. + Ok * Dm1**2 / Dh**2) - Dm1 * num.sqrt(1. + Ok * Dm2**2 / Dh**2) )
+        return 1. / (1 + z2) * ( Dm2 * num.sqrt(1. + Ok * Dm1**2 / Dh**2) - Dm1 * num.sqrt(1. + Ok * Dm2**2 / Dh**2) ) * self.lengthConversion(cm=cm, meter=meter, pc=pc, kpc=kpc, mpc=mpc)
 
 
     # Luminosity distance
