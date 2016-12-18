@@ -166,7 +166,15 @@ class Cosmology:
             incoming_ages = num.asarray( [incoming_ages] )
         else:
             incoming_ages = num.asarray( incoming_ages )
-
+	
+	# negative ages are not allowed
+	if incoming_ages.min() < 0:
+		raise ValueError( 'Negative ages are not allowed in call to GetZ' )
+	
+	# also nothing older than the lookback time
+	if incoming_ages.max() > self.Tl( zf, yr=True ):
+		raise ValueError( 'Ages older than the lookback time of zf are not allowed in call to GetZ' )
+	
         # there is no cosmology routine to calculate redshift given formation redshift and age, so we must work the problem backwards.
         # Make a semi-regular grid of zs, calculate age given zf, and then interpolate on that.
 
