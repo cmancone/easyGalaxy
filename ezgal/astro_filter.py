@@ -585,12 +585,14 @@ class astro_filter(object):
 		Takes a list of zfs and returns a new list which includes all zfs from the previous list,
 		plus any zfs that are in this object but weren't in the old list. """
 
-		if zfs is None:
+		if zfs is None or len( zfs ) == 0:
 			if self.nzfs == 0:
 				return None
 			else:
 				return self.zfs
-
+		
+		zfs = np.asarray( zfs )
+		
 		# find the distance to the nearest passed formation redshift to each formation redshift in this filter object
 		zfs_in = np.asarray( zfs ).ravel()
 		my_zfs = self.zfs.reshape( (self.nzfs,1) )
@@ -614,8 +616,11 @@ class astro_filter(object):
 		""" sets the cosmology object for the filter to use for all calculations.  Should be a cosmology.Cosmology() object. """
 
 		# see if the cosmology is changing - if so, we need to dump any stored models
-		if self.cosmo.Om != cosmo.Om or self.cosmo.Ol != cosmo.Ol or self.cosmo.h != cosmo.h or self.cosmo.w != cosmo.w: self.clear_cache()
-
+		if self.cosmo is None:
+			self.clear_cache()
+		elif self.cosmo.Om != cosmo.Om or self.cosmo.Ol != cosmo.Ol or self.cosmo.h != cosmo.h or self.cosmo.w != cosmo.w:
+			self.clear_cache()
+		
 		# store the new cosmology
 		self.cosmo = cosmo
 
