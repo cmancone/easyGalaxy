@@ -39,8 +39,8 @@ class numeric(object):
 		wrapper class for making a numeric star formation history callable.
 		Pass a list of ages and relative star formation rates.  Ages should be in gyrs. """
 
-		self.ages = ages
-		self.sfr = sfr
+		self.ages = np.asarray( ages )
+		self.sfr = np.asarray( sfr )
 
 	def __call__( self, val ):
 		return np.interp( val, self.ages, self.sfr )
@@ -60,7 +60,7 @@ def constant( t, length ):
 
 	if type( t ) == type( np.array( [] ) ):
 		sfr = np.zeros( t.size )
-		m = t < length
+		m = t <= length
 		if m.sum(): sfr[m] = 1.0
 		return sfr
 	else:
