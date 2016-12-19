@@ -2,7 +2,7 @@ import unittest
 import ezgal.sfhs
 import numpy as np
 
-class test_weight(unittest.TestCase):
+class test_wrapper(unittest.TestCase):
 	
 	def setUp( self ):
 		
