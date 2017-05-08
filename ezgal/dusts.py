@@ -1,5 +1,7 @@
+from __future__ import absolute_import, division, print_function
+
 import numpy as np
-import utils
+from . import utils
 __ver__ = '1.0'
 
 class dust_wrapper(object):

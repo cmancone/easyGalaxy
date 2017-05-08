@@ -1,3 +1,6 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import sys, math
 import scipy.integrate as integrate
 from scipy import inf
@@ -166,15 +169,15 @@ class Cosmology:
             incoming_ages = num.asarray( [incoming_ages] )
         else:
             incoming_ages = num.asarray( incoming_ages )
-	
-	# negative ages are not allowed
-	if incoming_ages.min() < 0:
-		raise ValueError( 'Negative ages are not allowed in call to GetZ' )
-	
-	# also nothing older than the lookback time
-	if incoming_ages.max() > self.Tl( zf, yr=True ):
-		raise ValueError( 'Ages older than the lookback time of zf are not allowed in call to GetZ' )
-	
+
+        # negative ages are not allowed
+        if incoming_ages.min() < 0:
+            raise ValueError( 'Negative ages are not allowed in call to GetZ' )
+
+        # also nothing older than the lookback time
+        if incoming_ages.max() > self.Tl( zf, yr=True ):
+            raise ValueError( 'Ages older than the lookback time of zf are not allowed in call to GetZ' )
+
         # there is no cosmology routine to calculate redshift given formation redshift and age, so we must work the problem backwards.
         # Make a semi-regular grid of zs, calculate age given zf, and then interpolate on that.
 
@@ -244,22 +247,22 @@ if __name__ == '__main__':
     c = Cosmology()
 
     if len(sys.argv) < 2:
-        print 'Usage : cosmology.py z1 [z2]'
+        print('Usage : cosmology.py z1 [z2]')
     z1 = float(sys.argv[1])
 
-    print 'Cosmology : H0           =', c.H0()
-    print 'Cosmology : Omega Matter =', c.Om
-    print 'Cosmology : Omega Lambda =', c.Ol
-    print ''
+    print('Cosmology : H0           =', c.H0())
+    print('Cosmology : Omega Matter =', c.Om)
+    print('Cosmology : Omega Lambda =', c.Ol)
+    print()
     
-    print 'Hubble distance                %.2f Mpc' % (c.Dh() / c.pc / 1e6)
-    print 'Hubble time                    %.2f Gyr' % (c.Th() / 3600 / 24 / 365.25 / 1e9)
-    print ''
+    print('Hubble distance                %.2f Mpc' % (c.Dh() / c.pc / 1e6))
+    print('Hubble time                    %.2f Gyr' % (c.Th() / 3600 / 24 / 365.25 / 1e9))
+    print()
     
-    print 'For z = %.2f:' % (z1)
-    print 'Lookback time                  %.2f Gyr' % (c.Tl(z1) / 3600 / 24 / 365.25 / 1e9)
-    print 'Scale Factor a                 %.2f'     % (c.a(z1))
-    print 'Comoving L.O.S. Distance (w)   %.2f Mpc' % (c.Dc(z1) / c.pc / 1e6)
-    print 'Angular diameter distance      %.2f Mpc' % (c.Da(z1) / c.pc / 1e6)
-    print 'Luminosity distance            %.2f Mpc' % (c.Dl(z1) / c.pc / 1e6)
-    print 'Distance modulus               %.2f mag' % (c.DistMod(z1))
+    print('For z = %.2f:' % (z1))
+    print('Lookback time                  %.2f Gyr' % (c.Tl(z1) / 3600 / 24 / 365.25 / 1e9))
+    print('Scale Factor a                 %.2f'     % (c.a(z1)))
+    print('Comoving L.O.S. Distance (w)   %.2f Mpc' % (c.Dc(z1) / c.pc / 1e6))
+    print('Angular diameter distance      %.2f Mpc' % (c.Da(z1) / c.pc / 1e6))
+    print('Luminosity distance            %.2f Mpc' % (c.Dl(z1) / c.pc / 1e6))
+    print('Distance modulus               %.2f mag' % (c.DistMod(z1)))

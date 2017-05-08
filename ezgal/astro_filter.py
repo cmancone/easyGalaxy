@@ -1,5 +1,8 @@
-import utils,os,zf_grid
+from __future__ import absolute_import, division, print_function
+
+import os
 import numpy as np
+from . import utils, zf_grid
 # more modules are loaded in astro_filter.__init__()
 # they are split up this way so that astro_filter_light doesn't have to import those modules
 __ver__ = '2.0'

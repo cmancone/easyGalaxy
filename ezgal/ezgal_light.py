@@ -1,5 +1,10 @@
-import os,utils,astro_filter_light,re,ezgal
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
+import os
 import numpy as np
+import re
+from . import astro_filter_light, ezgal, utils
 
 class ezgal_light(ezgal.ezgal):
 	""" model = ezgal.ezgal_light( model_file )
@@ -100,7 +105,7 @@ class ezgal_light(ezgal.ezgal):
 			if not( os.path.isfile( model_file ) ):
 				raise ValueError( 'The specified model file was not found!' )
 			else:
-				print 'loading file from: %s' % model_file
+				print('loading file from: {0}'.format(model_file))
 
 		self.filename = model_file
 
@@ -112,7 +117,7 @@ class ezgal_light(ezgal.ezgal):
 	def check_cosmology( self ):
 		if not self.cosmology_loaded:
 			self.set_cosmology()
-			print 'Default cosmology loaded'
+			print('Default cosmology loaded')
 
 	###################
 	## set cosmology ##

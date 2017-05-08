@@ -1,5 +1,8 @@
+from __future__ import absolute_import, division, print_function
+
+import collections
 import numpy as np
-import collections,dusts
+from . import dusts
 __ver__ = '1.0'
 
 class sfh_wrapper(object):

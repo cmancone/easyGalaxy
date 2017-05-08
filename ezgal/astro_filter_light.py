@@ -1,5 +1,8 @@
-import utils,os,astro_filter,zf_grid
+from __future__ import absolute_import, division, print_function
+
+import os
 import numpy as np
+from . import utils, astro_filter, zf_grid
 
 class astro_filter_light(astro_filter.astro_filter):
 	""" filter = ezgal.astro_filter_light( filename, units='a', cosmology=None ) """
