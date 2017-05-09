@@ -1,4 +1,5 @@
-from __future__ import absolute_import, division, print_function
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 
 from . import (ezgal, utils, astro_filter, ezgal_light, wrapper, sfhs,
                weight, dusts)
