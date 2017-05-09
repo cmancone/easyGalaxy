@@ -1,5 +1,8 @@
 import numpy as np
-import pyfits
+try:
+    from astropy.io import fits as pyfits
+except ImportError:
+    import pyfits
 
 v_filter = np.asarray( [
 	[ 4486., 0.],
