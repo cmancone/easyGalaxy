@@ -1,6 +1,9 @@
-import dusts,sfhs
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import numpy as np
 import scipy.integrate as integrate
+from . import dusts, sfhs
 __ver__ = '1.0'
 
 class csp_integrator(object):
@@ -199,7 +202,7 @@ class csp_integrator(object):
 			if (err < max_err) or (niter > max_iter): break
 	
 		if niter > max_iter:
-			print "WARNING: Reached iteration limit of %d iterations.  Expect errors in final magnitudes of %.4f mags.\nIf this is unacceptable try increasing max_iter." % (max_iter,err)
+			print("WARNING: Reached iteration limit of %d iterations.  Expect errors in final magnitudes of %.4f mags.\nIf this is unacceptable try increasing max_iter." % (max_iter,err))
 
 		return resampling
 

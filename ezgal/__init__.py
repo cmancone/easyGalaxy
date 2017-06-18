@@ -1,4 +1,8 @@
-import ezgal,utils,astro_filter,ezgal_light,wrapper,sfhs,weight,dusts
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
+from . import (ezgal, utils, astro_filter, ezgal_light, wrapper, sfhs,
+               weight, dusts)
 
 __all__ = ["model", "utils", "wrapper", "sfhs", "weight"]
 __author__ = 'Conor Mancone, Anthony Gonzalez'
