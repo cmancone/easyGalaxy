@@ -12,9 +12,9 @@ au_per_pc = 3600*180/np.pi	# AUs per parsec
 
 def to_years( to_convert, units='gyrs', reverse=False ):
 	""" res = ezgal.utils.to_years( to_convert, units='gyrs', reverse=False )
-	
+
 	Converts the given time to years from the given units. If reverse=True then it converts from years into the given units
-	
+
 	:param to_convert: The time to convert
 	:param units: The units to convert the time to
 	:param reverse: Converts from years if True
@@ -23,16 +23,16 @@ def to_years( to_convert, units='gyrs', reverse=False ):
 	:type reverse: bool
 	:returns: The converted time
 	:rtype: int, float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.to_years( 1e-9, units='gyrs' )
 		1.0
-	
+
 	**units**
-	
+
 	Available units are (case insensitive):
-	
+
 	==================  ====================
 	       Name             Units
 	==================  ====================
@@ -43,7 +43,7 @@ def to_years( to_convert, units='gyrs', reverse=False ):
 	seconds,secs,sec,s  Seconds
 	log                 log10(years)
 	==================  ====================
-	
+
 	.. seealso:: :func:`ezgal.utils.convert_time`
 	"""
 
@@ -67,9 +67,9 @@ def to_years( to_convert, units='gyrs', reverse=False ):
 
 def convert_time( to_convert, incoming='secs', outgoing='gyrs' ):
 	""" res = ezgal.utils.convert_time( to_convert, incoming='secs', outgoing='gyrs' )
-	
+
 	Converts the given time from the incoming units to the outgoing units.
-	
+
 	:param to_convert: The length to convert
 	:param incoming: The units to convert the time from
 	:param outgoing: The units to convert the time to
@@ -78,37 +78,37 @@ def convert_time( to_convert, incoming='secs', outgoing='gyrs' ):
 	:type outgoing: string
 	:returns: The converted time
 	:rtype: int, float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.convert_time( 1, incoming='years', outgoing='s' )
 		31536000.0
-	
+
 	.. seealso:: see :func:`ezgal.utils.to_years` for available units."""
 
 	return to_years( to_years( to_convert, units=incoming ), units=outgoing, reverse=True )
 
 def to_meters( to_convert, units='a' ):
 	""" res = ezgal.utils.to_meters( to_convert, units='a' )
-	
+
 	Converts a length from the given units to meters
-	
+
 	:param to_convert: The length to convert
 	:param units: The units to convert the length to
 	:type to_convert: int, float
 	:type units: string
 	:returns: The converted length
 	:rtype: int, float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.to_meters( 1e10, units='a' )
 		1.0
-	
+
 	**units**
-	
+
 	Available units are (case insensitive):
-	
+
 	================= ====================
 	       Name             Units
 	================= ====================
@@ -124,9 +124,9 @@ def to_meters( to_convert, units='a' ):
 	kpc, kiloparsecs  Kiloparsecs
 	mpc, megaparsecs  Megaparsecs
 	================= ====================
-	
+
 	.. seealso:: :func:`ezgal.utils.convert_length`
-	
+
 	"""
 
 	units = units.lower()
@@ -147,24 +147,24 @@ def to_meters( to_convert, units='a' ):
 
 def to_hertz( to_convert, units='a' ):
 	""" res = ezgal.utils.to_hertz( to_convert, units='Angstroms' )
-	
+
 	Converts the given wavelength (in the given units) to hertz.
-	
+
 	:param to_convert: The wavelength to convert
 	:param units: The units the wavelength is in
 	:type to_convert: int, float
 	:type units: string
 	:returns: The converted frequency
 	:rtype: float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.to_hertz( 1000, units='a' )
 		2997924580000000.0
-	
+
 	.. seealso::
 		see :func:`ezgal.utils.to_meters` for list of available units
-		
+
 		Also see :func:`ezgal.utils.to_lambda`
 	"""
 
@@ -172,24 +172,24 @@ def to_hertz( to_convert, units='a' ):
 
 def to_lambda( to_convert, units='a' ):
 	""" res = ezgal.utils.to_lambda( to_convert, units='a' )
-	
+
 	Converts the given frequency to a wavelength in the given units.
-	
+
 	:param to_convert: The frequency to convert
 	:param units: The desired units of the output wavelength
 	:type to_convert: int, float
 	:type units: string
 	:returns: The converted wavelength
 	:rtype: float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.to_lambda( 2997924580000000.0, units='a' )
 		1000.0
-	
+
 	.. seealso::
 		see :func:`ezgal.utils.to_meters` for list of available units
-		
+
 		Also see :func:`ezgal.utils.to_hertz`
 	"""
 
@@ -197,9 +197,9 @@ def to_lambda( to_convert, units='a' ):
 
 def convert_length( to_convert, incoming='m', outgoing='a' ):
 	""" res = ezgal.utils.convert_length( to_convert, incoming='m', outgoing='a' )
-	
+
 	converts a length from the incoming units to the outgoing units.
-	
+
 	:param to_convert: The length to convert
 	:param incoming: The units to convert the length from
 	:param outgoing: The units to convert the length to
@@ -208,12 +208,12 @@ def convert_length( to_convert, incoming='m', outgoing='a' ):
 	:type outgoing: string
 	:returns: The converted length
 	:rtype: int, float
-	
+
 	:Example:
 		>>> import ezgal
 		>>> ezgal.utils.convert_length( 1, incoming='pc', outgoing='au' )
 		206264.80624709636
-	
+
 	.. seealso:: see :func:`ezgal.utils.to_meters` for available units.
 	"""
 
@@ -221,28 +221,28 @@ def convert_length( to_convert, incoming='m', outgoing='a' ):
 
 def rascii( filename, silent=False ):
 	""" res = ezgal.utils.rascii( filename, silent=False )
-	
+
 	Reads in numeric data stored in an ascii file into a numpy array.
-	
+
 	:param filename: The name of the ascii file
 	:param silent: Whether or not to output basic file information
 	:type filename: string
 	:type silent: bool
 	:returns: A numpy array
 	:rtype: np.array()
-	
+
 	.. warning::
 		Skips any lines that have any non-numeric data, and any data lines with a different number of columns than the first data line.
-	
+
 	.. seealso:: :func:`ezgal.utils.wascii`
 	"""
-	
+
 	# accept an open filepointer or a filename
 	if type( filename ) == type( '' ):
 		file = open( filename, 'r' )
 	else:
 		file = filename
-	
+
 	found = False
 	nlines = 0
 	ngood = 0
@@ -276,9 +276,9 @@ def rascii( filename, silent=False ):
 
 def wascii( array, filename, formats, blank=False, header=None, names=None ):
 	""" ezgal.utils.wascii( array, filename, formats, blank=False, header=False, names=None )
-	
+
 	Writes out a np array to a well formated file.
-	
+
 	:param array: The numpy array to write out
 	:param filename: The name of the output file
 	:param formats: A list of python string formats (one for each column)
@@ -311,7 +311,7 @@ def wascii( array, filename, formats, blank=False, header=None, names=None ):
 		for i in range(ncols):
 			header.append( name_format % (i+1,names[i]) )
 
-	if ( header is not None ) & ( type( header ) != type( '' ) ): header = "\n".join( header )
+	if ( header is not None ) & isinstance( header, list ): header = "\n".join( header )
 
 	if ncols == 1:
 		file = "\n".join( formats[0] % val for val in table.ravel() )
@@ -320,7 +320,7 @@ def wascii( array, filename, formats, blank=False, header=None, names=None ):
 		for i in range(nrows):
 			strings[i] = ' '.join([format % val for format,val in zip(formats, table[i,:])])
 		file = "\n".join( strings )
-	
+
 	# filename can be a filename or file pointer
 	# in the case of a file pointer don't close it
 	if type( filename ) == type( '' ):
@@ -329,17 +329,17 @@ def wascii( array, filename, formats, blank=False, header=None, names=None ):
 	else:
 		fh = filename
 		do_close = False
-	
+
 	if header is not None: fh.write( header + "\n" )
 	fh.write( file )
 	if blank: fh.write( "\n" )
-	
+
 	if do_close:
 		fh.close()
 
 def _read_binary( fhandle, type='i', number=1, swap=False ):
 	""" res = ezgal.utils._read_binary( fhandle, type='i', number=1, swap=False )
-	
+
 	reads 'number' binary characters of type 'type' from file handle 'fhandle'
 	returns the value (for one character read) or a numpy array
 	set swap=True to byte swap the array after reading
@@ -356,20 +356,20 @@ def _read_binary( fhandle, type='i', number=1, swap=False ):
 
 def read_ised( file ):
 	""" ( seds, ages, vs ) = ezgal.utils.read_ised( file )
-	
+
 	Read a bruzual and charlot binary ised file.
-	
+
 	:param file: The name of the ised file
 	:type file: string
 	:returns: A tuple containing model data
 	:rtype: tuple
-	
+
 	.. note::
 		All returned variables are numpy arrays.  ages and vs are one dimensional arrays, and seds has a shape of (vs.size,ages.size)
-	
+
 	**units**
 	Returns units of:
-	
+
 	=============== ===============
 	Return Variable   Units
 	=============== ===============
