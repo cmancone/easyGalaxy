@@ -1920,15 +1920,16 @@ class ezgal(object):
                     'You need to pass a file name or a numpy array and filter name!')
             name = os.path.basename(file)
 
-        # if a file name was passed then search for the file in the various directories
+        # if a file name was passed then search for the file in the various
+        # directories
         if type(file) == type(''):
             file = self._find_filter_file(file)
 
         self.filters[name] = astro_filter(file,
-                                                       units=units,
-                                                       cosmology=self.cosmo,
-                                                       vega=self.vega,
-                                                       solar=self.solar)
+                                          units=units,
+                                          cosmology=self.cosmo,
+                                          vega=self.vega,
+                                          solar=self.solar)
         self.filters[name].tol = self.tol
         # store its name in self.filter_order
         if not self.filter_order.count(name): self.filter_order.append(name)
