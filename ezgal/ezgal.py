@@ -160,16 +160,12 @@ class ezgal(object):
         # how about path to filter and model directories?
         self.filter_dir = False
         self.model_dir = False
-        #if os.environ.has_key('ezgal_filters'):
         if 'ezgal_filters' in os.environ:
             self.filter_dir = os.environ['ezgal_filters']
-        #elif os.environ.has_key('EZGAL_FILTERS'):
         elif 'EZGAL_FILTERS' in os.environ:
             self.filter_dir = os.environ['EZGAL_FILTERS']
-        #if os.environ.has_key('ezgal_models'):
         if 'ezgal_models' in os.environ:
             self.model_dir = os.environ['ezgal_models']
-        #elif os.environ.has_key('EZGAL_MODELS'):
         elif 'EZGAL_MODELS' in os.environ:
             self.model_dir = os.environ['EZGAL_MODELS']
 
@@ -942,9 +938,9 @@ class ezgal(object):
         # fetch mags from filters
         for (i, filt) in enumerate(filters):
             # filter must be added
-            if not self.filters.has_key(filt):
+            if filt not in self.filters:
                 self.add_filter(filt)
-            if not self.filters.has_key(filt):
+            if filt not in self.filters:
                 raise ValueError('The filter %s could not be loaded!' % filt)
 
             if self.filters[filt].has_solar:
@@ -1224,7 +1220,7 @@ class ezgal(object):
                          'apparent': False}
             return True
 
-        if not self.filters.has_key(filter): self.add_filter(filter)
+        if filter not in self.filters: self.add_filter(filter)
 
         self.norm = {'norm': float(mag),
                      'z': float(z),
