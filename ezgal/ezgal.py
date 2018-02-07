@@ -13,15 +13,21 @@ __ver__ = '2.0'
 
 
 class ezgal(object):
-    """ model = ezgal.ezgal( model_file, is_ised=False, is_fits=False, is_ascii=False, has_masses=False, units='a', age_units='gyrs')
+    """ model = ezgal.ezgal( model_file, is_ised=False, is_fits=False,
+    is_ascii=False, has_masses=False, units='a', age_units='gyrs')
 
-    Class for converting galaxy seds as a function of age to magnitudes as a function of redshift.
-    Reads in bc03 ised files as well as ascii files, effectively replacing cm_evolution from the bc03 src files
-    Specify a model file.  It should be a bc03 ised file, an ascii file, or a model file created with this class (which are stored as fits).
+    Class for converting galaxy seds as a function of age to magnitudes as a
+    function of redshift.
+    Reads in bc03 ised files as well as ascii files, effectively replacing
+    cm_evolution from the bc03 src files
+    Specify a model file.  It should be a bc03 ised file, an ascii file, or a
+    model file created with this class (which are stored as fits).
     See ezgal._load_ascii for information on formatting/units for ascii files
-    This will automatically try to dtermine which type of file you have passed it.  If this fails, you can specify it manually with the is_* flags.
+    This will automatically try to dtermine which type of file you have passed
+    it.  If this fails, you can specify it manually with the is_* flags.
 
-    units, age_units, and has_masses apply only for ascii files.  See ezgal._load_ascii()
+    units, age_units, and has_masses apply only for ascii files.  See
+    ezgal._load_ascii()
     """
 
     # python 3 compatibility
@@ -97,19 +103,29 @@ class ezgal(object):
                  units='a',
                  age_units='gyrs',
                  skip_load=False):
-        """ model = ezgal.ezgal( model_file, is_ised=False, is_fits=False, is_ascii=False, has_masses=False, units='a', age_units='gyrs')
+        """ model = ezgal.ezgal( model_file, is_ised=False, is_fits=False,
+        is_ascii=False, has_masses=False, units='a', age_units='gyrs')
 
-        Class for converting galaxy seds as a function of age to magnitudes as a function of redshift.
-        Reads in bc03 ised files as well as ascii files, effectively replacing cm_evolution from the bc03 src files
-        Specify a model file.  It should be a bc03 ised file, an ascii file, or a model file created with this class (which are stored as fits).
-        See ezgal._load_ascii for information on formatting/units for ascii files
-        This will automatically try to dtermine which type of file you have passed it.  If this fails, you can specify it manually with the is_* flags.
+        Class for converting galaxy seds as a function of age to magnitudes as
+        a function of redshift.
+        Reads in bc03 ised files as well as ascii files, effectively replacing
+        cm_evolution from the bc03 src files
+        Specify a model file.  It should be a bc03 ised file, an ascii file, or
+        a model file created with this class (which are stored as fits).
+        See ezgal._load_ascii for information on formatting/units for ascii
+        files
+        This will automatically try to dtermine which type of file you have
+        passed it.  If this fails, you can specify it manually with the is_*
+        flags.
 
-        units, age_units, and has_masses apply only for ascii files.  See ezgal._load_ascii()
+        units, age_units, and has_masses apply only for ascii files.  See
+        ezgal._load_ascii()
         """
 
-        # load additional modules.  Yes, this is strange.  But this way ezgal_light can inherit ezgal.
-        # this is necessary because ezgal_light is intended to work without any of these modules
+        # load additional modules.  Yes, this is strange.  But this way
+        # ezgal_light can inherit ezgal.
+        # this is necessary because ezgal_light is intended to work without any
+        # of these modules
         try:
             from astropy.io import fits as pyfits
         except ImportError:
@@ -1403,12 +1419,13 @@ class ezgal(object):
 
         # now start gridding
         for filter in filters:
-            # add the filter if it doesn't exist - don't bother gridding, since that's what we're doing anyway
-            if not self.filters.has_key(filter):
+            # add the filter if it doesn't exist - don't bother gridding, since
+            # that's what we're doing anyway
+            if filter not in self.filters:
                 # try to load it.
                 self.add_filter(filter, grid=False)
                 # okay, it really doesn't exist...
-                if not self.filters.has_key(filter):
+                if filter not in self.filters:
                     raise ValueError(
                         'The specified filter, %s, has not been loaded and cannot be found!'
                         % filter)
@@ -1866,22 +1883,35 @@ class ezgal(object):
         :param file: The filename containing the filter response curve
         :param name: The name to store the filter as
         :param units: The length units for the wavelengths in the file
-        :param grid: Whether or not to calculate evolution information when first added
+        :param grid: Whether or not to calculate evolution information when
+        first added
         :type file: string
         :type name: string
         :type units: string
         :type grid: bool
 
-        Add a filter for calculating models.  Specify the name of the file containing the filter transmission curve.  If the file is not found then ``EzGal`` will search for it in the directory specified by the ``EZGAL_FILTERS`` environment variable, and then in the ``data/filters`` directory in the ``EzGal`` module directory.
+        Add a filter for calculating models.  Specify the name of the file
+        containing the filter transmission curve.  If the file is not found
+        then ``EzGal`` will search for it in the directory specified by the
+        ``EZGAL_FILTERS`` environment variable, and then in the
+        ``data/filters`` directory in the ``EzGal`` module directory.
 
-        The filter file should have two columns (wavelength,transmission).  Wavelengths are expected to be in angstroms unless specified otherwise with ``units``.  See :func:`ezgal.utils.to_meters` for list of available units.
+        The filter file should have two columns (wavelength,transmission).
+        Wavelengths are expected to be in angstroms unless specified otherwise
+        with ``units``.  See :func:`ezgal.utils.to_meters` for list of
+        available units.
 
-        Specify a name to refer to the filter as later.  If no name is specified, the filename is used (excluding path information and extension)
-        If a filter already exists with that name, the previous filter will be replaced.
+        Specify a name to refer to the filter as later.  If no name is
+        specified, the filename is used (excluding path information and
+        extension)
+        If a filter already exists with that name, the previous filter will be
+        replaced.
 
-        If grid is True, then models will be generated for this filter at all set formation redshifts.
+        If grid is True, then models will be generated for this filter at all
+        set formation redshifts.
 
-        You can pass a numpy array directly, instead of a file, but if you do this you need to specify the name.
+        You can pass a numpy array directly, instead of a file, but if you do
+        this you need to specify the name.
         """
 
         if name is None:
@@ -1894,7 +1924,7 @@ class ezgal(object):
         if type(file) == type(''):
             file = self._find_filter_file(file)
 
-        self.filters[name] = astro_filter.astro_filter(file,
+        self.filters[name] = astro_filter(file,
                                                        units=units,
                                                        cosmology=self.cosmo,
                                                        vega=self.vega,
