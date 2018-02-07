@@ -12,12 +12,15 @@ __ver__ = '2.0'
 class astro_filter(object):
     """ filter = ezgal.astro_filter( filename, units='a', cosmology=None )
 
-	Loads a filter response curve for use with ezgal
-	The file should be a two column ascii files with filter response curves.
-	First column should be wavelength (or frequency), second column should be total response (fraction).
-	By default units are assumed to be angstroms.  Use units='value' To specify non-default units.
-	To specify units of hertz, set units='Hz' (case-insensitive)
-	To specify alternate units (for wavelength) see code list in ezgal.utils.to_meters() """
+    Loads a filter response curve for use with ezgal
+    The file should be a two column ascii files with filter response curves.
+    First column should be wavelength (or frequency), second column should be
+    total response (fraction).
+    By default units are assumed to be angstroms.  Use units='value' To specify
+    non-default units.
+    To specify units of hertz, set units='Hz' (case-insensitive)
+    To specify alternate units (for wavelength) see code list in
+    ezgal.utils.to_meters() """
 
     cosmo = None  # cosmology object
 
@@ -66,8 +69,10 @@ class astro_filter(object):
                  vega=False,
                  solar=False):
 
-        # load additional modules.  Yes, this is strange.  But this way astro_filter_light can inherit astro_filter.
-        # this is necessary because astro_filter_light is intended to work without any of these modules
+        # load additional modules.  Yes, this is strange.  But this way
+        # astro_filter_light can inherit astro_filter.
+        # this is necessary because astro_filter_light is intended to work
+        # without any of these modules
         import scipy.interpolate as interpolate
         import scipy.integrate
         global interpolate
@@ -145,22 +150,23 @@ class astro_filter(object):
     ############################
     def calc_filter_properties(self):
         """ ezgal.astro_filter.calc_filter_properties()
-		
-		Calculates the following properties of the filter response curve and stores them in the astro_filter object:
-		Mean wavelength (angstroms)
-		pivot wavelength (angstroms)
-		average wavelength (angstroms)
-		effective dimensionless gaussian width
-		effective width of bandpass (angstroms)
-		equivalent width (angstroms)
-		rectangular width (angstroms)
 
-		Uses standard definitions defined in wfpc2 instrument handbook:
-		http://www.stsci.edu/hst/wfpc2/documents/handbook/cycle17/ch6_exposuretime2.html#480221
-		Definitions of equivalent width and rectangular width come from here:
-		http://www.stsci.edu/hst/wfc3/documents/handbooks/currentIHB/c06_uvis06.html#57
+        Calculates the following properties of the filter response curve and
+        stores them in the astro_filter object:
+        Mean wavelength (angstroms)
+        pivot wavelength (angstroms)
+        average wavelength (angstroms)
+        effective dimensionless gaussian width
+        effective width of bandpass (angstroms)
+        equivalent width (angstroms)
+        rectangular width (angstroms)
 
-		Currently does not use a very precise method for integration... """
+        Uses standard definitions defined in wfpc2 instrument handbook:
+        http://www.stsci.edu/hst/wfpc2/documents/handbook/cycle17/ch6_exposuretime2.html#480221
+        Definitions of equivalent width and rectangular width come from here:
+        http://www.stsci.edu/hst/wfc3/documents/handbooks/currentIHB/c06_uvis06.html#57
+
+        Currently does not use a very precise method for integration... """
 
         # dlambda
         diff = self.ls - np.roll(self.ls, 1)
@@ -193,11 +199,11 @@ class astro_filter(object):
     #########################
     def set_vega_conversion(self, vega):
         """ ezgal.astro_filter.set_vega_conversion( vega )
-		
-		Pass a numpy array with the vega spectrum.  Array should have two columns:
-		
-		frequency (hertz)
-		flux (ergs/s/cm^2/Hz) """
+
+        Pass a numpy array with the vega spectrum.  Array should have two columns:
+
+        frequency (hertz)
+        flux (ergs/s/cm^2/Hz) """
 
         if type(vega) != type(np.array([])) or vega.size == 0:
             raise ValueError(
@@ -217,11 +223,11 @@ class astro_filter(object):
     #########################
     def set_solar_magnitude(self, solar):
         """ ezgal.astro_filter.set_solar_mag( vega )
-		
-		Pass a numpy array with the solar spectrum.  Array should have two columns:
-		
-		frequency (hertz)
-		flux (ergs/s/cm^2/Hz) """
+
+        Pass a numpy array with the solar spectrum.  Array should have two columns:
+
+        frequency (hertz)
+        flux (ergs/s/cm^2/Hz) """
 
         if type(solar) != type(np.array([])) or solar.size == 0:
             raise ValueError(
@@ -241,11 +247,13 @@ class astro_filter(object):
     #######################
     def get_apparent_mags(self, zf, zs, vega=False):
         """ mag = ezgal.astro_filter.get_apparent_mags( zf, zs, vega=False )
-		
-		Returns the apparent magnitude of the model at the given redshifts, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		Outputs vega mags if vega=True
-		"""
+
+        Returns the apparent magnitude of the model at the given redshifts,
+        given the formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        Outputs vega mags if vega=True
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -261,11 +269,13 @@ class astro_filter(object):
     #######################
     def get_absolute_mags(self, zf, zs, vega=False):
         """ mag = ezgal.astro_filter.get_absolute_mags( zf, zs, vega=False )
-		
-		Returns the absolute magnitude of the model at the given redshifts, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		Outputs vega mags if vega=True
-		"""
+
+        Returns the absolute magnitude of the model at the given redshifts,
+        given the formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        Outputs vega mags if vega=True
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -281,11 +291,13 @@ class astro_filter(object):
     ################################
     def get_observed_absolute_mags(self, zf, zs, vega=False):
         """ mag = ezgal.astro_filter.get_observed_absolute_mags( zf, zs, vega=False )
-		
-		Returns the observed-frame absolute magnitude of the model at the given redshifts, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		Outputs vega mags if vega=True
-		"""
+
+        Returns the observed-frame absolute magnitude of the model at the given
+        redshifts, given the formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        Outputs vega mags if vega=True
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -301,10 +313,12 @@ class astro_filter(object):
     ###################
     def get_kcorrects(self, zf, zs):
         """ kcorrect = ezgal.astro_filter.get_kcorrects( zf, z )
-		
-		Returns the k-correction of the model at the given redshift, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		"""
+
+        Returns the k-correction of the model at the given redshift, given the
+        formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -318,10 +332,12 @@ class astro_filter(object):
     ###################
     def get_ecorrects(self, zf, zs):
         """ kcorrect = ezgal.astro_filter.get_ecorrects( zf, z )
-		
-		Returns the e-correction of the model at the given redshift, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		"""
+
+        Returns the e-correction of the model at the given redshift, given the
+        formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -335,10 +351,12 @@ class astro_filter(object):
     ####################
     def get_ekcorrects(self, zf, zs):
         """ kcorrect = ezgal.astro_filter.get_ekcorrects( zf, z )
-		
-		Returns the e+k correction of the model at the given redshift, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		"""
+
+        Returns the e+k correction of the model at the given redshift, given
+        the formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False:
@@ -352,10 +370,12 @@ class astro_filter(object):
     ####################
     def get_solar_mags(self, zf, zs, vega=False):
         """ solar = ezgal.astro_filter.get_solar_mags( zf, z, vega=False )
-		
-		Returns the observed-frame absolute solar magnitude at the given redshift, given the formation redshift.
-		Uses the zf_grid object to speed up calculations.  Can only be used for formation redshifts that have been gridded.
-		"""
+
+        Returns the observed-frame absolute solar magnitude at the given
+        redshift, given the formation redshift.
+        Uses the zf_grid object to speed up calculations.  Can only be used for
+        formation redshifts that have been gridded.
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False or not zf_grid.has_solar:
@@ -371,10 +391,12 @@ class astro_filter(object):
     ################
     def get_masses(self, zf, zs):
         """ masses = ezgal.astro_filter.get_masses( zf, z )
-		
-		Returns the stellar mass (in solar masses) at the given redshift, given the formation redshift.
-		Uses the zf_grid object for consistency.  Can only be used for formation redshifts that have been gridded.
-		"""
+
+        Returns the stellar mass (in solar masses) at the given redshift, given
+        the formation redshift.
+        Uses the zf_grid object for consistency.  Can only be used for
+        formation redshifts that have been gridded.
+        """
 
         zf_grid = self.get_zf_grid(zf)
         if zf_grid == False or not zf_grid.has_masses:
@@ -388,9 +410,9 @@ class astro_filter(object):
     #############
     def calc_dm(self, zs):
         """ dm = ezgal.astro_filter.get_dm( zs )
-		
-		Returns the distance modulus for given redshifts
-		"""
+
+        Returns the distance modulus for given redshifts
+        """
 
         zs = np.asarray(zs)
         if len(zs.shape) == 0: zs = np.array([zs])
@@ -407,8 +429,8 @@ class astro_filter(object):
     ###################
     def calc_rest_mag(self, vs, sed):
         """ mag = ezgal.astro_filter.get_mag( vs, sed )
-		
-		Calculate the rest-frame absolute AB magnitude of an SED through the filter """
+
+        Calculate the rest-frame absolute AB magnitude of an SED through the filter """
 
         return self.calc_mag(vs, sed, 0)
 
@@ -417,8 +439,8 @@ class astro_filter(object):
     ##################
     def calc_obs_mag(self, vs, sed, z):
         """ mag = ezgal.astro_filter.get_mag( vs, sed, z )
-		
-		Calculate the observed-frame absolute AB magnitude of an SED through the filter """
+
+        Calculate the observed-frame absolute AB magnitude of an SED through the filter """
 
         return self.calc_mag(vs, sed, z)
 
@@ -427,36 +449,36 @@ class astro_filter(object):
     ##############
     def calc_mag(self, vs, sed, z):
         """ mag = ezgal.astro_filter.calc_mag( vs, sed, z )
-		
-		:param vs: List of sed frequencies.
-		:param sed: The SED, with units of ergs/s/cm^2/Hz
-		:param z: The redshift to redshift the SED to.
-		:type vs: list, array
-		:type sed: list, array
-		:type z: int, float
-		:returns: Absolute AB magnitude
-		:rtype: float
-		
-		:Example:
-			>>> import ezgal
-			>>> model = ezgal.model( 'bc03_ssp_z_0.02_chab.model' )
-			>>> model.add_filter( 'ch1' )
-			>>> zf = 3
-			>>> z = 1
-			>>> # Use ``EzGal`` to calculate the rest-frame ch1 mag given zf & z
-			>>> model.get_absolute_mags( zf, filters='ch1', zs=z )
-			5.6135203220610741
-			>>> # now calculate it directly
-			>>> sed = model.get_sed_z( zf, z )
-			>>> model.filters['ch1'].calc_mag( model.vs, sed, 0 )
-			5.6135203220610741
-			>>> # same for apparent mag
-			>>> model.get_apparent_mags( zf, filters='ch1', zs=z )
-			47.969095009830326
-			>>> model.filters['ch1'].calc_mag( model.vs, sed, z ) + model.get_distance_moduli( z, nfilters=1 )
-			47.969095009830326
-		
-		Calculate the absolute AB magnitude of the given sed at the given redshift. Set ``z=0`` for rest-frame magnitudes.  ``vs`` should give the frequency (in Hz) of every point in the SED, and the sed should have units of ergs/s/cm^2/Hz."""
+
+        :param vs: List of sed frequencies.
+        :param sed: The SED, with units of ergs/s/cm^2/Hz
+        :param z: The redshift to redshift the SED to.
+        :type vs: list, array
+        :type sed: list, array
+        :type z: int, float
+        :returns: Absolute AB magnitude
+        :rtype: float
+
+        :Example:
+            >>> import ezgal
+            >>> model = ezgal.model( 'bc03_ssp_z_0.02_chab.model' )
+            >>> model.add_filter( 'ch1' )
+            >>> zf = 3
+            >>> z = 1
+            >>> # Use ``EzGal`` to calculate the rest-frame ch1 mag given zf & z
+            >>> model.get_absolute_mags( zf, filters='ch1', zs=z )
+            5.6135203220610741
+            >>> # now calculate it directly
+            >>> sed = model.get_sed_z( zf, z )
+            >>> model.filters['ch1'].calc_mag( model.vs, sed, 0 )
+            5.6135203220610741
+            >>> # same for apparent mag
+            >>> model.get_apparent_mags( zf, filters='ch1', zs=z )
+            47.969095009830326
+            >>> model.filters['ch1'].calc_mag( model.vs, sed, z ) + model.get_distance_moduli( z, nfilters=1 )
+            47.969095009830326
+
+        Calculate the absolute AB magnitude of the given sed at the given redshift. Set ``z=0`` for rest-frame magnitudes.  ``vs`` should give the frequency (in Hz) of every point in the SED, and the sed should have units of ergs/s/cm^2/Hz."""
 
         # make sure an acceptable number of sed points actually go through the filter...
         shifted = vs / (1 + z)
@@ -477,10 +499,10 @@ class astro_filter(object):
     ##########
     def grid(self, zf, vs, zs, ages, seds, force=False):
         """ astro_filter.grid( zf, vs, ages, seds, force=False )
-		
-		Calculate rest and observed frame magnitude for the given seds given age and formation redshift.
-		If this formation redshift is already gridded then no additional calculations will be made
-		unless force=True """
+
+        Calculate rest and observed frame magnitude for the given seds given age and formation redshift.
+        If this formation redshift is already gridded then no additional calculations will be made
+        unless force=True """
 
         # don't bother doing anything if this formation redshift is already gridded
         if self.has_zf(zf) and not (force): return True
@@ -504,8 +526,8 @@ class astro_filter(object):
     ################
     def grid_solar(self, zf, solar_vs, solar_sed):
         """ astro_filter.grid_solar()
-		
-		Grid up the observed magnitude of the sun as a function of redshift from the given solar SED and store """
+
+        Grid up the observed magnitude of the sun as a function of redshift from the given solar SED and store """
 
         # This assumes that the given zf is already gridded - otherwise there is nothing to do
         if not self.has_zf(zf):
@@ -531,8 +553,8 @@ class astro_filter(object):
     #################
     def grid_masses(self, zf, ages, masses):
         """ astro_filter.grid_masses()
-		
-		Grid up the stellar mass as a function of redshift and store """
+
+        Grid up the stellar mass as a function of redshift and store """
 
         # This assumes that the given zf is already gridded - otherwise there is nothing to do
         if not self.has_zf(zf):
@@ -586,9 +608,9 @@ class astro_filter(object):
     #################
     def get_zf_grid(self, zf):
         """ zf_grid = ezgal.astro_filter.get_zf_grid( zf )
-		
-		returns the zf_grid object for calculating model properties for a given zf.
-		returns False if the formation redshift has not been gridded """
+
+        returns the zf_grid object for calculating model properties for a given zf.
+        returns False if the formation redshift has not been gridded """
 
         ind = self.get_zf_ind(zf)
         if ind < 0: return False
@@ -599,9 +621,9 @@ class astro_filter(object):
     ################
     def get_zf_ind(self, zf):
         """ ind = ezgal.astro_filter.get_zf_ind( zf )
-		
-		returns the index to ezgal.astro_filter.zf_grids corresponding to the given formation redshift.
-		returns false if the given formation redshift has not been gridded. """
+
+        returns the index to ezgal.astro_filter.zf_grids corresponding to the given formation redshift.
+        returns false if the given formation redshift has not been gridded. """
 
         if self.nzfs == 0: return -1
 
@@ -615,9 +637,9 @@ class astro_filter(object):
     ############
     def has_zf(self, zf, solar=False, masses=False):
         """ bool = ezgal.astro_filter.has_zf( zf, solar=False, masses=False )
-		
-		returns True or False depending on whether a particular formation redshift has been gridded.
-		A tolerance of 1e-8 is used to decide if the passed formation redshift matches a gridded one. """
+
+        returns True or False depending on whether a particular formation redshift has been gridded.
+        A tolerance of 1e-8 is used to decide if the passed formation redshift matches a gridded one. """
 
         if self.nzfs == 0: return False
 
@@ -641,9 +663,9 @@ class astro_filter(object):
     ####################
     def extend_zf_list(self, zfs=None):
         """ zfs = ezgal.astro_filter.extend_zf_list( zfs=None )
-		
-		Takes a list of zfs and returns a new list which includes all zfs from the previous list,
-		plus any zfs that are in this object but weren't in the old list. """
+
+        Takes a list of zfs and returns a new list which includes all zfs from the previous list,
+        plus any zfs that are in this object but weren't in the old list. """
 
         if zfs is None or len(zfs) == 0:
             if self.nzfs == 0:
@@ -689,8 +711,8 @@ class astro_filter(object):
     #################
     def clear_cache(self):
         """ ezgal.astro_filter.clear_cache()
-		
-		Clears all stored redshift evolution information """
+
+        Clears all stored redshift evolution information """
 
         self.zf_grids = []
         zfs = np.array([])
