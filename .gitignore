@@ -2,3 +2,5 @@
 *.pyc
 ezgal/data/models/
 build*
+
+ezgal/__pycache__/
