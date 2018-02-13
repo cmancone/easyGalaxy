@@ -2549,7 +2549,7 @@ class ezgal(object):
         self.has_meta_data = True
         self.meta_data = {}
         # copy to meta data dictionary
-        for (key, val) in data.iteritems():
+        for (key, val) in data.items():
             if len(str(key)) > 8:
                 raise ValueError(
                     'Meta data keys must be less than 9 characters long!')
