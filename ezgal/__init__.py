@@ -1,8 +1,8 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
-from . import (ezgal, utils, astro_filter, ezgal_light, wrapper, sfhs,
-               weight, dusts)
+from . import (ezgal, utils, astro_filter, ezgal_light, wrapper, sfhs, weight,
+               dusts)
 
 __all__ = ["model", "utils", "wrapper", "sfhs", "weight"]
 __author__ = 'Conor Mancone, Anthony Gonzalez'
@@ -16,8 +16,9 @@ ezgal_light = ezgal_light.ezgal_light
 wrapper = wrapper.wrapper
 weight = weight.weight
 
-def interpolate( values, xs, models=None, key=None, return_wrapper=False ):
-	""" models = ezgal.interpolate( values, xs, models, return_wrapper=False )
+
+def interpolate(values, xs, models=None, key=None, return_wrapper=False):
+    """ models = ezgal.interpolate( values, xs, models, return_wrapper=False )
 	
 	or
 	
@@ -37,12 +38,18 @@ def interpolate( values, xs, models=None, key=None, return_wrapper=False ):
 	
 	All model SEDs must have the same age/wavelength grid. """
 
-	# what calling sequence was used?
-	if models is None and key is not None:
-		return wrapper( xs ).interpolate( key, values, return_wrapper=return_wrapper )
+    # what calling sequence was used?
+    if models is None and key is not None:
+        return wrapper(xs).interpolate(key,
+                                       values,
+                                       return_wrapper=return_wrapper)
 
-	# make sure we have everything we need...
-	if len( models ) != len( xs ): raise ValueErrors( 'xs list has a different length than models list!' )
+    # make sure we have everything we need...
+    if len(models) != len(xs):
+        raise ValueErrors('xs list has a different length than models list!')
 
-	# return interpolated models
-	return wrapper( models, extra_data=xs, extra_name='interp' ).interpolate( 'interp', values, return_wrapper=return_wrapper )
+    # return interpolated models
+    return wrapper(models, extra_data=xs,
+                   extra_name='interp').interpolate(
+                       'interp',
+                       values, return_wrapper=return_wrapper)
