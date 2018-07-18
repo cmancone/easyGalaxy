@@ -1,8 +1,11 @@
 import unittest
 import ezgal.utils as utils
 import numpy as np
-import StringIO
-
+try:
+    import StringIO
+except ImportError:
+    # In Python3 StringIO has moved into the io module.
+    import io as StringIO
 
 class test_wascii(unittest.TestCase):
     def test_integers(self):
