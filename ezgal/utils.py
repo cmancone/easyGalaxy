@@ -4,6 +4,7 @@ from __future__ import (absolute_import, division, print_function,
 import array, os, re
 import numpy as np
 import math
+import sys
 
 # some useful constants
 c = 299792458  # speed of light (m/sec)
@@ -363,18 +364,33 @@ def wascii(array, filename, formats, blank=False, header=None, names=None):
 
 
 def _read_binary(fhandle, type='i', number=1, swap=False):
-    """ res = ezgal.utils._read_binary( fhandle, type='i', number=1, swap=False )
+    '''
+    res = ezgal.utils._read_binary( fhandle, type='i', number=1, swap=False )
+    reads 'number' binary characters of type 'type' from file handle 'fhandle'
+    returns the value (for one character read) or a numpy array.
+    set swap=True to byte swap the array after reading
+    '''
 
-	reads 'number' binary characters of type 'type' from file handle 'fhandle'
-	returns the value (for one character read) or a numpy array
-	set swap=True to byte swap the array after reading
-	"""
+    if (sys.version_info >= (3, 0)) & (type == 'c'):
+       ##  unsigned char in python 2.
+       ##  https://docs.python.org/2/library/array.html
+       ##  https://docs.python.org/3/library/array.html
+       ##  type  =  'B'  ##  unsigned char in python 3.
+       ##  type  =  'b'  ##  signed char in python 3.
+
+       import warnings
+       type = 'B'
+       warnings.warn('Reassigning unsigned char type (c to B) as per python 3.')
 
     arr = array.array(type)
     arr.fromfile(fhandle, number)
-    if swap: arr.byteswap()
+
+    if swap:
+        arr.byteswap()
+
     if len(arr) == 1:
         return arr[0]
+
     else:
         return np.asarray(arr)
 
@@ -390,7 +406,8 @@ def read_ised(file):
 	:rtype: tuple
 
 	.. note::
-		All returned variables are numpy arrays.  ages and vs are one dimensional arrays, and seds has a shape of (vs.size,ages.size)
+		All returned variables are numpy arrays. ages and vs are one
+        dimensional arrays, and seds has a shape of (vs.size, ages.size)
 
 	**units**
 	Returns units of:
@@ -407,6 +424,8 @@ def read_ised(file):
     if not (os.path.isfile(file)):
         raise ValueError('The specified model file was not found!')
 
+    print('Reading .ised:  %s' % str(file))
+
     # open the ised file
     fh = open(file, 'rb')
 
@@ -422,10 +441,14 @@ def read_ised(file):
     # read ages
     ages = np.asarray(_read_binary(fh, type='f', number=nages))
 
-    # read in a bunch of stuff that I'm not interested in but which I read like this to make sure I get to the right spot in the file
+    # read in a bunch of stuff that I'm not interested in but which I read like
+    # this to make sure I get to the right spot in the file
     junk = _read_binary(fh, number=2)
     iseg = _read_binary(fh, number=1)
-    if iseg > 0: junk = _read_binary(fh, type='f', number=6 * iseg)
+
+    if iseg > 0:
+        junk = _read_binary(fh, type='f', number=6 * iseg)
+
     junk = _read_binary(fh, type='f', number=3)
     junk = _read_binary(fh)
     junk = _read_binary(fh, type='f')
@@ -440,8 +463,7 @@ def read_ised(file):
 
     # consistency check
     if nvs < 10 or nvs > 12000:
-        raise ValueError(
-            'Problem reading ised file - unexpected data found for the number of wavelengths!')
+        raise ValueError('Problem reading ised file - unexpected data found for the number of wavelengths!')
 
     # read wavelengths and convert to frequency (comes in as Angstroms)
     # also reverse the array so it will be sorted after converting to frequency
@@ -463,8 +485,10 @@ def read_ised(file):
         junk = _read_binary(fh, type='f', number=nx)
 
     # now convert the seds from Lo/A to ergs/s/Hz
-    seds *= 3.826e33 * ls.reshape(
-        (nvs, 1))**2.0 / convert_length(c, outgoing='a')
+    seds *= 3.826e33
+    seds *= ls.reshape((nvs, 1))**2.0
+    seds /= convert_length(c, outgoing='a')
+
     # convert from ergs/s/Hz to ergs/s/Hz/cm^2.0 @ 10pc
     seds /= 4.0 * np.pi * convert_length(10, incoming='pc', outgoing='cm')**2.0
     vs = to_hertz(ls)
@@ -474,4 +498,4 @@ def read_ised(file):
     # sort in frequency space
     sinds = vs.argsort()
 
-    return (seds[sinds, :], ages, vs[sinds, :])
+    return (seds[sinds, :], ages, vs[sinds])
