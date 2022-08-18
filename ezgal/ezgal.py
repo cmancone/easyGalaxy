@@ -1025,7 +1025,7 @@ class ezgal(object):
         mags = np.zeros((len(zs), len(filters)))
 
         # loop through filters one at a time.
-        for (i, filter) in enumerate(filters):
+        for (i, filter) in enumerate([filters]):
             mags[:, i] = self.filters[filter].get_solar_mags(zf,
                                                              zs,
                                                              vega=vega_out)
@@ -1527,7 +1527,7 @@ class ezgal(object):
         Returns a list of filters - either the passed ones (as a string list), or the filters loaded for the model object """
 
         if filters is None: filters = self.filter_order
-        if type(filters) == type(''): filters = [filters]
+        if type(filters) == type(str('')): filters = [filters]
 
         return filters
 
@@ -1857,7 +1857,7 @@ class ezgal(object):
             for i in range(nfilters):
                 filters.append(fits[0].header['filter%d' % (i + 1)])
         # make sure it is an array
-        if type(filters) == type(''): filters = [filters]
+        if type(filters) == type(str('')): filters = [filters]
 
         # now loop through all the filters in the file, and add the ones in our filter list
         for i in range(nfilters):
@@ -1911,17 +1911,17 @@ class ezgal(object):
         """
 
         if name is None:
-            if type(file) != type(''):
+            if type(file) != type(str('')):
                 raise ValueError(
                     'You need to pass a file name or a numpy array and filter name!')
             name = os.path.basename(file)
 
         # if a file name was passed then search for the file in the various
         # directories
-        if type(file) == type(''):
+        if type(file) == type(str('')):
             file = self._find_filter_file(file)
 
-        self.filters[name] = astro_filter(file,
+        self.filters[name] = astro_filter(str(file),
                                           units=units,
                                           cosmology=self.cosmo,
                                           vega=self.vega,
@@ -3243,7 +3243,7 @@ if __name__ == '__main__':
         # add a prefix if there isn't one, otherwise the filter files will be overwritten
         if prefix == '': prefix = 'ev_'
 
-        for (find, filter) in enumerate(filters):
+        for (find, filter) in enumerate([filters]):
             # file header
             display = 'Apparent Mags'
             if out == 'kcor': display = 'Kcorrects'
@@ -3320,7 +3320,7 @@ if __name__ == '__main__':
                 header += '\n#  2: Distance Modulus'
 
             if out == 'all':
-                for (i, filter) in enumerate(filters):
+                for (i, filter) in enumerate([filters]):
                     filter_dat = np.column_stack(
                         (model.get_kcorrects(zf, filters=filter),
                          model.get_absolute_mags(zf, filters=filter),
