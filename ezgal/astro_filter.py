@@ -79,7 +79,7 @@ class astro_filter(object):
         global scipy
 
         # check that we were passed a file and it exists
-        if type(filename) == type(''):
+        if type(filename) == type(str('')):
             if not os.path.isfile(filename):
                 raise ValueError(
                     'The specified filter transmission file does not exist!')
